@@ -24,7 +24,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
+        run: | 
+          git checkout ${{ env.BRANCH_NAME }}
       - name: Add last commit dates to front matter
         run: |
           bash scripts/add_last_modified_date.sh
@@ -36,7 +37,6 @@ jobs:
       - name: commit
         run: |
           # Stage the file, commit and push
-          git checkout ${{ env.BRANCH_NAME }}
           git add docs/*
           git commit -m "Add new dates to front matter"
           git push origin ${{ env.BRANCH_NAME }}
