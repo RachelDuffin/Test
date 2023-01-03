@@ -9,12 +9,12 @@ for f in $FILES; do
     fi
 done
 for f in $FILES; do
-    file_modified_date=$(sed -n "/.*last_modified_date:.*/ p" $f)
-    printf "Modified date in file: $file_modified_date"
-    str="$(git log -1 --pretty=format:"%cd" --date=format:'%Y-%m-%d %H:%M:%S' $f)"
-    printf "Modified date in git log: $str"
-    if [[ "$file_modified_date" =~ .*"$str".* ]]; then
-      printf "File has not been modified: $f"
+    file_modified_date=$(sed -n "/.*last_modified_date:.*/ p" "$f")
+    echo "Modified date in file: $file_modified_date"
+    str="$(git log -1 --pretty=format:"%cd" --date=format:'%Y-%m-%d %H:%M:%S' "$f")"
+    echo "Modified date in git log: $str"
+    if echo "$file_modified_date" | grep -q "$str"; then
+      echo "File has not been modified: $f"
     else
       printf "%-${MAXLEN}s %s\n File modified since last pull request: $f $str"
       sed -i "s/.*last_modified_date:.*/last_modified_date: $str/" "$f"
