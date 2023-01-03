@@ -36,6 +36,7 @@ jobs:
       - name: commit
         run: |
           # Stage the file, commit and push
+          git checkout ${{ env.BRANCH_NAME }}
           git add docs/*
           git commit -m "Add new dates to front matter"
           git push origin ${{ env.BRANCH_NAME }}
