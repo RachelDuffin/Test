@@ -17,7 +17,7 @@ permissions:
   id-token: write
 
 env:
- BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+ BRANCH_NAME: ${{ github.ref_name }}
 
 jobs:
   update_last_modified_dates:
