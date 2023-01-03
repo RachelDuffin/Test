@@ -8,7 +8,7 @@ for f in $FILES; do
     str="$(git log -1 --pretty=format:"%cd" --date=format:'%Y-%m-%d %H:%M:%S' "$f")"
     echo "$f: Modified date in git log: $str"
     if echo "$file_modified_date" | grep -q "$str"; then
-      echo "File has not been modified: $f"
+      echo "$f: File has not been modified"
     else
       datetime_now=$(date +'%Y-%m-%d %H:%M:%S')
       printf "%s: Modified since last pull request: %s" "$f" "$str \n"
