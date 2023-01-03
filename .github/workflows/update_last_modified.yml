@@ -37,6 +37,11 @@ jobs:
       - name: Add last commit dates to front matter
         run: |
           bash scripts/add_last_modified_date.sh
-          git add docs/*
-          git commit -m "Add new dates to front matter"
-          git push origin ${{ env.BRANCH_NAME }}
+          if [[ $(git status --porcelain=v1) ]]; then
+            echo "No files updated, no time stamps to commit"
+          else
+            echo "Files updated, committing time stamps"
+            git add docs/*
+            git commit -m "Add new dates to front matter"
+            git push origin ${{ env.BRANCH_NAME }}
+          fi
