@@ -11,7 +11,7 @@ for f in $FILES; do
       echo "File has not been modified: $f"
     else
       datetime_now=$(date +'%Y-%m-%d %H:%M:%S')
-      printf "%s modified since last pull request: %s" "$f" "$str"
+      printf "%s modified since last pull request: %s" "$f" "$str \n"
       sed -i "s/.*last_modified_date:.*/last_modified_date: $datetime_now/" "$f"
     fi
 done
