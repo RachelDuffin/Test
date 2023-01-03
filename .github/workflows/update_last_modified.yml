@@ -37,7 +37,7 @@ jobs:
       - name: Add last commit dates to front matter
         run: |
           bash scripts/add_last_modified_date.sh
-          if [[ $(git status --porcelain=v1) ]]; then
+          if [[ $(git status --porcelain=v1 | wc -l) == "0") ]]; then
             echo "No files updated, no time stamps to commit"
           else
             echo "Files updated, committing time stamps"
