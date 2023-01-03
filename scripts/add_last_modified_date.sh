@@ -16,7 +16,7 @@ for f in $FILES; do
     if [[ "$file_modified_date" =~ .*"$str".* ]]; then
       echo "File has not been modified: $f"
     else
-      printf "%-${MAXLEN}s %s\n File modified since last pull request:" "$f" "$str"
+      printf "%-${MAXLEN}s %s\n File modified since last pull request: $f $str"
       sed -i "s/.*last_modified_date:.*/last_modified_date: $str/" "$f"
     fi
 done
