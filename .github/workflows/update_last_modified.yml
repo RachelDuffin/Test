@@ -1,0 +1,47 @@
+# This workflow updates last_modified_date tag for files in /docs upon pull request
+
+# Sample workflow for building and deploying a Jekyll site to GitHub Pages
+name: Update last_modified_date for docs
+
+on:
+  push:
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow GitHub Actions to push commits
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+env:
+ BRANCH_NAME: ${{ github.ref_name }}
+
+jobs:
+  update_last_modified_dates:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ env.BRANCH_NAME }}
+          fetch-depth: 0
+      - name: Restore Timestamps
+        uses: chetan/git-restore-mtime-action@v1
+      - name: setup git config
+        run: |
+          # setup the username and email
+          git config user.name "GitHub Actions Bot"
+          git config user.email "<>"
+      - name: Add last commit dates to front matter
+        run: |
+          bash scripts/add_last_modified_date.sh
+          if [[ $(git status --porcelain=v1 | wc -l) == "0" ]]; then
+            echo "No files updated, no time stamps to commit"
+          else
+            echo "Files updated, committing time stamps"
+            git add docs/*
+            git commit -m "Add new dates to front matter"
+            git push origin ${{ env.BRANCH_NAME }}
+          fi
