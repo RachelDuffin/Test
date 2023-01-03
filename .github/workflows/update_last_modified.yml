@@ -30,17 +30,14 @@ jobs:
           fetch-depth: 0
       - name: Restore Timestamps
         uses: chetan/git-restore-mtime-action@v1
-      - name: Add last commit dates to front matter
-        run: |
-          bash scripts/add_last_modified_date.sh
       - name: setup git config
         run: |
           # setup the username and email
           git config user.name "GitHub Actions Bot"
           git config user.email "<>"
-      - name: commit
+      - name: Add last commit dates to front matter
         run: |
-          # Stage the file, commit and push
+          bash scripts/add_last_modified_date.sh
           git add docs/*
           git commit -m "Add new dates to front matter"
           git push origin ${{ env.BRANCH_NAME }}
